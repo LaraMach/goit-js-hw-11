@@ -23,8 +23,6 @@ form.addEventListener('submit', e => {
 
   getImagesByQuery(query)
     .then(data => {
-      hideLoader();
-
       if (data.hits.length === 0) {
         iziToast.error({
           message:
@@ -33,15 +31,16 @@ form.addEventListener('submit', e => {
         });
         return;
       }
-
       createGallery(data.hits);
     })
     .catch(error => {
-      hideLoader();
       iziToast.error({
         message: 'Something went wrong. Please try again!',
         position: 'topRight',
       });
       console.error(error);
+    })
+    .finally(() => {
+      hideLoader();
     });
 });
